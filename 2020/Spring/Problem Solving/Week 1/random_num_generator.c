@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <limits.h>
 
-#define NUMBER 50
+#define NUMBER 500
  
 void main() 
 {        
@@ -18,7 +18,9 @@ void main()
     //숫자 추출
     while (count < NUMBER) {
         isSame = 0;
-        tmp = (rand()*rand()) % INT_MAX;//1부터 45 출력
+        tmp = (rand() * rand()) % 500;
+        if(rand() % 2 != 0)
+            tmp = -tmp;
         for (int i = 0; i < count; i++) { //중복검사
             if (tmp == save[i]) { //중복이 있을때
                 isSame = 1;
