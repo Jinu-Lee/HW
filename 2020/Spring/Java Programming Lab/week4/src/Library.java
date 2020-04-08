@@ -1,5 +1,3 @@
-package week4;
-
 public class Library {
 
 	private Book[] book = new Book[10];
@@ -38,14 +36,14 @@ public class Library {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Library l = new Library();
-		l.borrowBook(10);
-		l.borrowBook(5);
-		l.borrowBook(5);
-		l.returnBook(5);
-		l.returnBook(9);
-		l.returnBook(-1);
-		l.borrowBook(3);
-		l.returnBook(0);
+		//l.borrowBook(10);
+		//l.borrowBook(5);
+		//l.borrowBook(5);
+		//l.returnBook(5);
+		//l.returnBook(9);
+		//l.returnBook(-1);
+		//l.borrowBook(3);
+		//l.returnBook(0);
 	}
 
 }

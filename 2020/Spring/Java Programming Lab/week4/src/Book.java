@@ -1,5 +1,3 @@
-package week4;
-
 public class Book {
 
 	private boolean isBorrowed = false;

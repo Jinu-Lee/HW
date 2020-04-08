@@ -1,3 +1,4 @@
+
 public class StringMethod {
     // Returns the string created by adding 's2' after position 'index' of 's1'.
     static String addString(String s1, int index, String s2) {
@@ -19,8 +20,8 @@ public class StringMethod {
     }
 
     public static void main(String[] args) {
-        System.out.println(addString("0123456", 3, "-"));
-        System.out.println(reverse("abc"));
-        System.out.println(removeString("01001000", "00"));
+        //System.out.println(addString("0123456", 3, "-"));
+        //System.out.println(reverse("abc"));
+        //System.out.println(removeString("01001000", "00"));
     }
 }
