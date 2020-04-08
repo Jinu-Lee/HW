@@ -1,0 +1,68 @@
+{
+    // IntelliSense를 사용하여 가능한 특성에 대해 알아보세요.
+    // 기존 특성에 대한 설명을 보려면 가리킵니다.
+    // 자세한 내용을 보려면 https://go.microsoft.com/fwlink/?linkid=830387을(를) 방문하세요.
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - PA1",
+            "request": "launch",
+            "mainClass": "PA1",
+            "projectName": "PA1"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - m",
+            "request": "launch",
+            "mainClass": "m",
+            "projectName": "week5"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - week5",
+            "request": "launch",
+            "mainClass": "week5",
+            "projectName": "week5"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - NumberSystemConverter",
+            "request": "launch",
+            "mainClass": "NumberSystemConverter"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - HelloWorld",
+            "request": "launch",
+            "mainClass": "HelloWorld"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Library",
+            "request": "launch",
+            "mainClass": "Library",
+            "projectName": "HW_1cff20d7"
+        },
+        {
+            "name": "(gdb) 시작",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/NPC/Week 1/1541.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "gdb에 자동 서식 지정 사용",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
