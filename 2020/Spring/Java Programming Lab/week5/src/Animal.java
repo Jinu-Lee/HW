@@ -16,6 +16,9 @@ final class Cat extends Mammal {
     private float weight;
     private String nameSlave;
 
+    Cat() {}
+    Cat(String n1) { this(n1, 0, ""); }
+    Cat(String n1, float w) { this(n1, w, ""); }
     Cat(String n1, float w, String n2) {
         name = n1;
         weight = w;
@@ -49,6 +52,9 @@ final class Dog extends Mammal {
     private float weight;
     private String nameMaster;
 
+    Dog() {}
+    Dog(String n1) { this(n1, 0, ""); }
+    Dog(String n1, float w) { this(n1, w, ""); }
     Dog(String n1, float w, String n2) {
         name = n1;
         weight = w;
@@ -81,6 +87,8 @@ final class Crocodile extends Reptile {
     private String name;
     private float weight;
 
+    Crocodile() {}
+    Crocodile(String n) { this(n, 0); }
     Crocodile(String n, float w) {
         name = n;
         weight = w;

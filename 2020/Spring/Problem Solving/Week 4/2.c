@@ -105,7 +105,7 @@ int main()
     int *weights = malloc(sizeof(int) * num);
     for (int i = 0; i < num; i++)
         scanf("%d", &weights[i]);
-
+    
     printf("%d", numShoppingBag(weights, num, limit));
 
     return 0;

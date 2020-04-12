@@ -99,7 +99,8 @@ class Linkedlist<T> {
 
 	T get(int n) {
 		T value = null;
-		if (this.size() <= n || this.size() == 0)
+		int size = this.size();
+		if (size <= n || size == 0 || n < 0)
 			return value;
 		Node<T> tmp = this.head;
 		int cnt = 0;
@@ -112,7 +113,8 @@ class Linkedlist<T> {
 	}
 
 	void set(int n, T val) {
-		if (this.size() <= n || this.size() == 0)
+		int size = this.size();
+		if (size <= n || size == 0 || n < 0)
 			return;
 		Node<T> tmp = this.head;
 		int cnt = 0;
@@ -125,10 +127,13 @@ class Linkedlist<T> {
 	}
 
 	void add(int n, T val) {
-		if (this.size() <= n)
+		int size = this.size();
+		if (size <= n || n < 0)
 			return;
 		if (n == 0)
 			push_front(val);
+		else if (n == size - 1)
+			push_back(val);
 		else {
 			Node<T> newNode = new Node<T>(val);
 			Node<T> tmp = this.head;
@@ -146,10 +151,13 @@ class Linkedlist<T> {
 	}
 
 	void erase(int n) {
-		if (this.size() <= n)
+		int size = this.size();
+		if (size <= n || n < 0)
 			return;
 		if (n == 0)
 			pop_front();
+		else if(n == size - 1)
+			pop_back();
 		else {
 			Node<T> tmp = this.head;
 			int cnt = 0;
@@ -165,59 +173,65 @@ class Linkedlist<T> {
 	}
 
 	void pop_back() {
-		if (this.size() == 0)
+		int size = this.size();
+		if (size == 0)
 			return;
-		// T tmp = this.tail.value;
-		if (this.size() == 1) {
+		else if (size == 1) {
 			this.head = null;
 			this.tail = null;
 		} else {
 			tail = tail.prev;
 			tail.next = null;
 		}
-		// return tmp;
+		return;
 	}
 
 	void pop_front() {
-		if (this.size() == 0)
+		int size = this.size();
+		if (size == 0)
 			return;
-		// T tmp = this.head.value;
-		if (this.size() == 1) {
+		else if (size == 1) {
 			this.head = null;
 			this.tail = null;
 		} else {
 			head = head.next;
 			head.prev = null;
 		}
-
-		// return tmp;
+		return;
 	}
 
 	List<Linkedlist<T>> split(T val) {
 		List<Linkedlist<T>> arr = new ArrayList<Linkedlist<T>>();
+		List<Integer> index = new ArrayList<Integer>();
+		int size = this.size();
+		if(size == 0)
+			return arr;
 		Node<T> tmp = this.head;
-		boolean flag = false;
-		while (tmp != null) {
-			if (tmp.value == val) {
-				Linkedlist<T> list1 = new Linkedlist<T>(), list2 = new Linkedlist<T>();
-				Node<T> tmp2 = tmp;
-				while (tmp2 != null) {
-					list1.push_front(tmp2.value);
-					tmp2 = tmp2.prev;
+		for(int i = 0; tmp != null; i++, tmp=tmp.next) {
+			if(tmp.value == val)
+				index.add(i);
+		}
+		
+		if(index.size() == 0)
+			arr.add(this);
+		else {
+			tmp = this.head;
+			Linkedlist<T> temp = new Linkedlist<T>();
+			for(int i = 0; tmp != null; i++, tmp = tmp.next) {
+				if(index.contains(i)) {
+					if(temp.size() != 0) {
+						arr.add(temp);
+						temp = new Linkedlist<T>();
+					}
 				}
-				tmp = tmp.next;
-				while (tmp != null) {
-					list2.push_back(tmp.value);
-					tmp = tmp.next;
+				else {
+					temp.push_back(tmp.value);
 				}
-				arr.add(list1);
-				arr.add(list2);
-				flag = true;
-				break;
+			}
+			if(temp.size() != 0) {
+				arr.add(temp);
 			}
 		}
-		if (!flag)
-			arr.add(this);
 		return arr;
 	}
 
@@ -233,40 +247,103 @@ class Linkedlist<T> {
 public class PA1 {
 	public static void main(String[] args) {
 		// example of using Linkedlist with generic type
+		
 		Linkedlist<Integer> list = new Linkedlist<Integer>();
-		Linkedlist<Integer> list2 = new Linkedlist<Integer>();
-		Linkedlist<Integer> list3 = new Linkedlist<Integer>();
-		for (int i = 1; i <= 10; i++)
-			list.push_back(i);
-		list.print_list();
-		System.out.println(list.size());
-
-		for (int i = 1; i <= 10; i++) {
-			list2.push_front(i + 10);
-			list3.push_front(i + 10);
+		List<Linkedlist<Integer>> a = new ArrayList<Linkedlist<Integer>>();
+		list.push_back(1);
+		list.push_back(2);
+		list.push_back(3);
+		list.push_back(2);
+		list.push_back(3);
+		list.push_back(4);
+		a = list.split(2);
+		for(int i = 0; i < a.size(); i++) {
+			Linkedlist<Integer> temp = a.get(i);
+			temp.print_list();
 		}
-		list2.print_list();
-		System.out.println(list2.equals(list3));
-		System.out.println(list.equals(list2));
 
-		list.pop_front();
+
+		// push_front, push_back
+		/*
+		list.push_front(1);
+		list.push_back(2);
 		list.print_list();
-
+		list.push_front(3);
+		list.push_back(4);
+		list.print_list();
+		*/
+		
+		//pop_back(), pop_front()
+		/*
+		list.pop_back();
+		list.pop_front();
+		list.push_back(1);
+		list.push_back(2);
+		list.print_list();
 		list.pop_back();
 		list.print_list();
+		list.pop_front();
+		list.print_list();
+		*/
 
-		list.add(1, 100);
+		//addList, equals
+		/*
+		Linkedlist<Integer> list2 = new Linkedlist<Integer>();
+		Linkedlist<Integer> list3 = new Linkedlist<Integer>();
+		for(int i = 1; i <=3; i++) {
+			list.push_back(i);
+			list2.push_back(i);
+			list3.push_back(i + 3);
+		}
 		list.print_list();
+		list2.print_list();
+		list3.print_list();
+		if(list.equals(list2))
+			System.out.println("list == list2");
+		if(list.equals(list3))
+			System.out.println("list == list3");
+		list.addList(list3);
+		list.print_list();
+		*/
 
-		list.addList(list2);
-		list.print_list();
+		//size
+		/*
+		System.out.println(list.size());
+		list.push_back(1);
+		System.out.println(list.size());
+		list.push_back(2);
+		System.out.println(list.size());
+		*/
 
-		System.out.println(list.get(10));
-		list.set(10, 125);
-		System.out.println(list.get(10));
-		list.add(10, 120);
+		//get, set, add, erase
+		/*
+		System.out.println(list.get(0));
+		list.push_back(2);
+		System.out.println(list.get(0));
+		list.push_back(3);
+		System.out.println(list.get(-1));
+		list.set(1, 5);
 		list.print_list();
-		list.erase(11);
+		list.set(0, 1);
 		list.print_list();
+		list.set(2, 6);
+		list.print_list();
+		list.set(-1, 6);
+		list.print_list();
+		list.add(-1, 6);
+		list.print_list();
+		list.add(0, 5);
+		list.print_list();
+		list.add(1, 7);
+		list.print_list();
+		list.add(4, 8);
+		list.print_list();
+		list.erase(-1);
+		list.print_list();
+		list.erase(3);
+		list.print_list();
+		list.erase(4);
+		list.print_list();
+		*/
 	}
 }
