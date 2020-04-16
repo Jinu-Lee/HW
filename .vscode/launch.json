@@ -6,6 +6,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - ContactList",
+            "request": "launch",
+            "mainClass": "ContactList"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - PA1",
             "request": "launch",
             "mainClass": "PA1",
@@ -48,7 +54,7 @@
             "name": "(gdb) 시작",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/NPC/Week 1/1541.exe",
+            "program": "${workspaceFolder}/2020/Spring/Problem Solving/PA2/block.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

@@ -223,39 +223,24 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-  int cnt = x & 1;
-  cnt += (x >> 1) & 1;
-  cnt += (x >> 2) & 1;
-  cnt += (x >> 3) & 1;
-  cnt += (x >> 4) & 1;
-  cnt += (x >> 5) & 1;
-  cnt += (x >> 6) & 1;
-  cnt += (x >> 7) & 1;
-  cnt += (x >> 8) & 1;
-  cnt += (x >> 9) & 1;
-  cnt += (x >> 10) & 1;
-  cnt += (x >> 11) & 1;
-  cnt += (x >> 12) & 1;
-  cnt += (x >> 13) & 1;
-  cnt += (x >> 14) & 1;
-  cnt += (x >> 15) & 1;
-  cnt += (x >> 16) & 1;
-  cnt += (x >> 17) & 1;
-  cnt += (x >> 18) & 1;
-  cnt += (x >> 19) & 1;
-  cnt += (x >> 20) & 1;
-  cnt += (x >> 21) & 1;
-  cnt += (x >> 22) & 1;
-  cnt += (x >> 23) & 1;
-  cnt += (x >> 24) & 1;
-  cnt += (x >> 25) & 1;
-  cnt += (x >> 26) & 1;
-  cnt += (x >> 27) & 1;
-  cnt += (x >> 28) & 1;
-  cnt += (x >> 29) & 1;
-  cnt += (x >> 30) & 1;
-  cnt += (x >> 31) & 1;
-  
+  int m = 0x11, temp, cnt;
+  m |= (m << 8);
+  m |= (m << 16);
+
+  temp = m & x;
+  temp += m & (x >> 1);
+  temp += m & (x >> 2);
+  temp += m & (x >> 3);
+
+  cnt = temp & 0xF;
+  cnt += (temp >> 4) & 0xF;
+  cnt += (temp >> 8) & 0xF;
+  cnt += (temp >> 12) & 0xF;
+  cnt += (temp >> 16) & 0xF;
+  cnt += (temp >> 20) & 0xF;
+  cnt += (temp >> 24) & 0xF;
+  cnt += (temp >> 28) & 0xF;
+
   return cnt;
 }
 /* 
@@ -352,8 +337,47 @@ unsigned float_abs(unsigned uf) {
  *   Rating: 4
  */
 unsigned float_i2f(int x) {
+  int sign_x = 0, first_one_pos = 31, frac, temp1, temp2, flag = 0;
 
-  return 2;
+  if(x < 0) {
+    sign_x = 1 << 31;
+    x = -x;
+  }
+
+  if(x == 0) {
+    return x;
+  }
+
+  while(first_one_pos >= 0) {
+    if(x >> first_one_pos) {
+      break;
+    }
+    first_one_pos--;
+  }
+
+  frac = ((1 << first_one_pos) - 1) & x;
+
+  if(first_one_pos >= 24) {
+    temp1 = 1 << (first_one_pos - 24);
+    temp2 = ((temp1 << 1) - 1) & frac;
+    if (temp2 > temp1) {
+      flag = 1;
+    }
+    else if(temp2 == temp1) {
+      if((frac >> (first_one_pos - 23)) & 1) {
+        flag = 1;
+      }
+    }
+    if (flag) {
+      frac += temp2;
+    }
+    frac >>= (first_one_pos - 23);
+  }
+  else {
+    frac <<= (23 - first_one_pos);
+  }
+
+  return sign_x + ((127 + first_one_pos) << 23) + frac;
 }
 /* 
  * float_twice - Return bit-level equivalent of expression 2*f for
@@ -384,7 +408,7 @@ unsigned float_twice(unsigned uf) {
   else {
     exp += 1;
     if(exp == exp_all_one) {
-      uf &= (1 << 31) >> 8;
+      uf &= inf;
     }
     uf &= ~inf;
     uf |= ((exp << 23) | (sign << 31));

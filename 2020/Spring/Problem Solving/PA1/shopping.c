@@ -33,9 +33,9 @@ void quicksort(int arr[], int left, int right)
     return;
 }
 
-int numShoppingBag(int *weights, int size, int limit)
+int numShoppingBag(int *weights, int size, int limit_weight)
 {
-    int ans = 0, tempSum, tempIndex, equal_to_limit, i, j;
+    int ans = 0, temp_Sum, temp_Index, equal_to_limit, i, j;
 
     quicksort(weights, 0, size - 1);                    //Greedy Algorithm을 위한 sort
 
@@ -44,18 +44,18 @@ int numShoppingBag(int *weights, int size, int limit)
         if (weights[i] == -1)                           //이미 사용됨
             continue;
 
-        if (weights[i] > limit)                         //limit보다 더 클 때
+        if (weights[i] > limit_weight)                         //limit보다 더 클 때
             return -1;
 
-        if (weights[i] == limit)                        //limit의 무게와 일치
+        if (weights[i] == limit_weight)                        //limit의 무게와 일치
         {
-            ans += 1;
+            ans++;
             weights[i] = -1;
             continue;
         }
 
-        tempSum = 0;                                    //임시합 저장용
-        tempIndex = -1;                                 //임시합을 만족하는 index
+        temp_Sum = 0;                                    //임시합 저장용
+        temp_Index = -1;                                 //임시합을 만족하는 index
         equal_to_limit = 0;                             //두 상자의 합으로 limit와 동일한 무게를 만들 수 있는지
 
         for (j = i + 1; j < size; j++)
@@ -65,29 +65,29 @@ int numShoppingBag(int *weights, int size, int limit)
 
             int sum = weights[i] + weights[j];
 
-            if (sum > limit)                            //합이 limit보다 큼
+            if (sum > limit_weight)                            //합이 limit보다 큼
                 continue;
-            else if (sum == limit)                      //limit과 같으면 더 이상 비교 X
+            else if (sum == limit_weight)                      //limit과 같으면 더 이상 비교 X
             {
-                ans += 1;
+                ans++;
                 weights[i] = weights[j] = -1;
                 equal_to_limit = 1;
                 break;
             }
-            else if (sum > tempSum)                     //limit보다는 작으면서 임시합보다는 큼
+            else if (sum > temp_Sum)                     //limit보다는 작으면서 임시합보다는 큼
             {
-                tempSum = sum;
-                tempIndex = j;
+                temp_Sum = sum;
+                temp_Index = j;
             }
         }
 
         if (!equal_to_limit)                            //모든 합이 limit를 만족하지 못함
         {
-            if (tempIndex == -1)                        //모든 sum이 limit 초과
+            if (temp_Index == -1)                        //모든 sum이 limit 초과
                 weights[i] = -1;
             else                                        //limit보다는 작지만 최적의 sum
-                weights[i] = weights[tempIndex] = -1;
-            ans += 1;
+                weights[i] = weights[temp_Index] = -1;
+            ans++;
         }
     }
 
