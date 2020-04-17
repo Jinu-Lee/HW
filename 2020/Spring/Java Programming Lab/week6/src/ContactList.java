@@ -55,6 +55,8 @@ public class ContactList {
 
     public static void main(String[] args) {
         ContactList list = new ContactList();
+        
+        @SuppressWarnings("resource")
         Scanner sc = new Scanner(System.in);
 
         while (true) {

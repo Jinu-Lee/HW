@@ -21,9 +21,13 @@ class Linkedlist<T> {
 	Node<T> tail = null;
 
 	void addList(Linkedlist<T> list) {
-		this.tail.next = list.head;
-		list.head.prev = this.tail;
-		this.tail = list.tail;
+		Linkedlist<T> temp = new Linkedlist<T>();
+		for(int i = 0; i < list.size(); i++) {
+			temp.push_back(list.get(i));
+		}
+		this.tail.next = temp.head;
+		temp.head.prev = this.tail;
+		this.tail = temp.tail;
 	}
 
 	boolean equals(Linkedlist<T> list) {
@@ -247,103 +251,6 @@ class Linkedlist<T> {
 public class PA1 {
 	public static void main(String[] args) {
 		// example of using Linkedlist with generic type
-		
-		Linkedlist<Integer> list = new Linkedlist<Integer>();
-		List<Linkedlist<Integer>> a = new ArrayList<Linkedlist<Integer>>();
-		list.push_back(1);
-		list.push_back(2);
-		list.push_back(3);
-		list.push_back(2);
-		list.push_back(3);
-		list.push_back(4);
-		a = list.split(2);
-		for(int i = 0; i < a.size(); i++) {
-			Linkedlist<Integer> temp = a.get(i);
-			temp.print_list();
-		}
 
-
-		// push_front, push_back
-		/*
-		list.push_front(1);
-		list.push_back(2);
-		list.print_list();
-		list.push_front(3);
-		list.push_back(4);
-		list.print_list();
-		*/
-		
-		//pop_back(), pop_front()
-		/*
-		list.pop_back();
-		list.pop_front();
-		list.push_back(1);
-		list.push_back(2);
-		list.print_list();
-		list.pop_back();
-		list.print_list();
-		list.pop_front();
-		list.print_list();
-		*/
-
-		//addList, equals
-		/*
-		Linkedlist<Integer> list2 = new Linkedlist<Integer>();
-		Linkedlist<Integer> list3 = new Linkedlist<Integer>();
-		for(int i = 1; i <=3; i++) {
-			list.push_back(i);
-			list2.push_back(i);
-			list3.push_back(i + 3);
-		}
-		list.print_list();
-		list2.print_list();
-		list3.print_list();
-		if(list.equals(list2))
-			System.out.println("list == list2");
-		if(list.equals(list3))
-			System.out.println("list == list3");
-		list.addList(list3);
-		list.print_list();
-		*/
-
-		//size
-		/*
-		System.out.println(list.size());
-		list.push_back(1);
-		System.out.println(list.size());
-		list.push_back(2);
-		System.out.println(list.size());
-		*/
-
-		//get, set, add, erase
-		/*
-		System.out.println(list.get(0));
-		list.push_back(2);
-		System.out.println(list.get(0));
-		list.push_back(3);
-		System.out.println(list.get(-1));
-		list.set(1, 5);
-		list.print_list();
-		list.set(0, 1);
-		list.print_list();
-		list.set(2, 6);
-		list.print_list();
-		list.set(-1, 6);
-		list.print_list();
-		list.add(-1, 6);
-		list.print_list();
-		list.add(0, 5);
-		list.print_list();
-		list.add(1, 7);
-		list.print_list();
-		list.add(4, 8);
-		list.print_list();
-		list.erase(-1);
-		list.print_list();
-		list.erase(3);
-		list.print_list();
-		list.erase(4);
-		list.print_list();
-		*/
 	}
 }

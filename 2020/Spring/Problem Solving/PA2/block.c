@@ -14,6 +14,8 @@ char blocks[200][1000] = {
     0,
 };
 
+int lowest_height = 100, highest_height = 100;
+
 int put(int index, int height, int mode)
 {
     int i;
@@ -47,21 +49,51 @@ char read(int index)
     return blocks[i][index];
 }
 
-int test(int index, int height, int mode)
+int test(int index, int length)
 {
-    int res = 0;
-    if (height + mode < 0 || height + mode > 199)
-        return res;
-    res = put(index, height + mode, 1);
-    if (res)
+    int res1 = 0, res2, i, j;
+    for (i = lowest_height - 1; i <= highest_height + 1; i++)
     {
-        if (read(index) == wall[index])
-            res = 1;
+        if (i > 0 && i < 199)
+        {
+            if (!blocks[i + 1][index] && !blocks[i - 1][index])
+                continue;
+        }
+        else if (i == 0)
+        {
+            if (!blocks[i + 1][index])
+                continue;
+        }
+        else if (i == 199)
+        {
+            if (!blocks[i - 1][index])
+                continue;
+        }
         else
-            res = 0;
+        {
+            continue;
+        }
+        res1 = put(index, i, 1);
+        if (res1)
+        {
+            res2 = 1;
+            for (j = 0; j < length; j++)
+            {
+                char c = read(index + j);
+                if (c != wall[index + j])
+                {
+                    res2 = 0;
+                    break;
+                }
+            }
+            put(index, i, 0);
+        }
+        if (res2)
+        {
+            return i;
+        }
     }
-    put(index, height + mode, 0);
-    return res;
+    return 0;
 }
 
 int check_pos(char c)
@@ -74,10 +106,10 @@ int check_pos(char c)
 
 void calculator()
 {
-    int current_height = 100, pos, lowest_height = 100, highest_height = 100;
+    int current_height = 100, pos, temp, i, j;
     put(0, current_height, 1);
     answer_num++;
-    for (int i = 1; i < wall_length; i++)
+    for (i = 1; i < wall_length; i++)
     {
         char r = read(i);
         pos = 0;
@@ -87,24 +119,34 @@ void calculator()
         {
             if (r == 0)
                 pos = check_pos(wall[i]);
-
-            int case_1 = test(i - pos, current_height, 1);
-            int case_2 = test(i - pos, current_height, -1);
-            if (case_1)
-                current_height++;
-            if (case_2)
-                current_height--;
+            temp = test(i - pos, pos + 1);
+            if (temp)
+                current_height = temp;
+            else
+            {
+                for(j = 1; j < block_length; j++)
+                {
+                    int t = test(i - pos - j, j);
+                    if(t) {
+                        put(i - pos - j, t, 1);
+                        answer_num++;
+                        if(t < lowest_height)
+                            lowest_height = t;
+                        if(t > highest_height)
+                            highest_height = t;
+                        break;
+                    } 
+                }
+                i--;
+                continue;
+            }
             put(i - pos, current_height, 1);
             answer_num++;
         }
         if (current_height > highest_height)
-        {
             highest_height = current_height;
-        }
         if (current_height < lowest_height)
-        {
             lowest_height = current_height;
-        }
     }
     answer_height = highest_height - lowest_height + 1;
 }
