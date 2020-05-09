@@ -251,6 +251,6 @@ class Linkedlist<T> {
 public class PA1 {
 	public static void main(String[] args) {
 		// example of using Linkedlist with generic type
-
+				
 	}
 }

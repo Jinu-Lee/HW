@@ -19,7 +19,7 @@ int lowest_height = 100, highest_height = 100;
 int put(int index, int height, int mode)
 {
     int i;
-    if (mode == 0)
+    if (!mode)
     {
         for (i = 0; i < block_length; i++)
             blocks[height][i + index] = 0;
@@ -124,18 +124,15 @@ void calculator()
                 current_height = temp;
             else
             {
-                for(j = 1; j < block_length; j++)
+                int t = test(i - pos - j, j);
+                if (t)
                 {
-                    int t = test(i - pos - j, j);
-                    if(t) {
-                        put(i - pos - j, t, 1);
-                        answer_num++;
-                        if(t < lowest_height)
-                            lowest_height = t;
-                        if(t > highest_height)
-                            highest_height = t;
-                        break;
-                    } 
+                    put(i - pos - j, t, 1);
+                    answer_num++;
+                    if (t < lowest_height)
+                        lowest_height = t;
+                    if (t > highest_height)
+                        highest_height = t;
                 }
                 i--;
                 continue;

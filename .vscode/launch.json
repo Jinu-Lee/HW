@@ -6,6 +6,30 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - reversed",
+            "request": "launch",
+            "mainClass": "reversed"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - PA2",
+            "request": "launch",
+            "mainClass": "PA2"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - SimpleCalculator",
+            "request": "launch",
+            "mainClass": "SimpleCalculator"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - reverse",
+            "request": "launch",
+            "mainClass": "reverse"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - ContactList",
             "request": "launch",
             "mainClass": "ContactList"
@@ -54,7 +78,7 @@
             "name": "(gdb) 시작",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/2020/Spring/Problem Solving/PA2/block.exe",
+            "program": "${workspaceFolder}/2020/Spring/Problem Solving/Mid-term/double_binary_search.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
