@@ -12,77 +12,81 @@ int input[3];
 int n1_num;
 int n2_num;
 
-int answer = 0; //최종 common
+int answer = 0; //final common
 
-int binary_search(int l, int r, int k, int* flag)
-{
-	int m;
-	while (l <= r)
-	{
-		m = (l + r) / 2;
-		if (n2[m] == k) {
-			*flag = 1;
-			break;
-		}
-		if (n2[m] > k) r = m - 1;
-		else l = m + 1;
-	}
-	return m;
-}
-
-void double_binary_search(int n1_l, int n1_r, int n2_l, int n2_r)
-{
-	if(n1_l > n1_r || n2_l > n2_r)
-		return;
-
-	int flag = 0;
-	int n1_m = (n1_l + n1_r) / 2;
-	int n2_m = binary_search(n2_l, n2_r, n1[n1_m], &flag);
-	
-	answer += flag;
-
-	double_binary_search(n1_l, n1_m - 1, n2_l, n2_m - flag);
-	double_binary_search(n1_m + 1, n1_r, n2_m + flag, n2_r);
-}
-
-void linear_search()
-{
-	for(int i = 0, j = 0; i < n2_num, j < n1_num;) {
-        int temp = n2[i] - n1[j];
-        if(temp < 0)
-        {
-            i++;
+void jump_linear(){
+    int jmp = 1, cnt = 0, i = 0, j = 0;
+    while(i < n2_num && j < n1_num) {
+        if(n2[i] < n1[j])
+        {   
+            cnt++;
+            if(cnt >= 4) {
+                jmp += 10;
+            }
+            i += jmp;
+            if(i > n2_num) {
+                i = i - jmp + 1;
+                jmp = 1;
+            }
         }
-        else if(temp == 0)
+        else if(n2[i] > n1[j])
         {
-			answer++;
+            cnt = 0;
+            if (jmp > 1)
+            {
+                i = i - jmp + 1;
+                jmp = 1;
+                continue;
+            }
             j++;
-			i++;
         }
         else
         {
+            cnt = 0; jmp = 1;
+            answer++;
+            i++; j++;
+        }
+    }
+}
+
+void normal_linear()
+{
+    int i = 0, j = 0;
+    while(i < n2_num && j < n1_num)
+    {
+        if (n2[i] < n1[j])
+        {
+            i++;
+        }
+        else if (n2[i] > n1[j])
+        {
             j++;
         }
+        else
+        {
+            answer++;
+            j++;
+            i++;
+        }
+    }
+}
+
+// Find common part of two array and reserve at global variable 'answer' 
+void find_common(){
+	if (n2_num < n1_num * 2) {
+        normal_linear();
+	}
+	else {
+		jump_linear();
 	}
 }
-
-// 두 배열의 공통 부분을 찾아 전역변수 answer에 저장하시오. 함수를 반환형을 바꾸어 return을 사용하셔도 됩니다.
-void find_common()
-{
-	if(n2_num < (n1_num << 1))
-		linear_search();
-    else
-		double_binary_search(0, n1_num - 1, 0, n2_num - 1);
-}
-
 
 int main()
 {
 
-FILE *fp =  fopen("sample1_answer.txt", "r");
-FILE *fp2 = fopen("sample1_n2.txt", "r");
-FILE *fp3 = fopen("sample1_n1.txt", "r");
-
+FILE *fp  = fopen("sample5_answer.txt", "r");
+FILE *fp2 = fopen("sample5_n2.txt", "r");
+FILE *fp3 = fopen("sample5_n1.txt", "r");
 
 for(int i =0; i<3; i++){
         fscanf(fp, "%d", &input[i]);
@@ -92,7 +96,7 @@ fclose(fp);
 
 n2_num = input[0];
 n1_num = input[1];
-int common = input[2]; //정답!
+int common = input[2]; //Correct Answer!
 
 for(int i =0; i<n2_num; i++){
         fscanf(fp2, "%d", &n2[i]);
@@ -108,8 +112,8 @@ fclose(fp3);
 
 find_common();
 
-printf("Real_Common : %d\n",common ); //실제 정답 출력
-printf("Calculated_Common : %d\n",answer ); //찾은 정답 출력
+printf("Real_Common : %d\n",common ); //Real answer
+printf("Calculated_Common : %d\n",answer ); //Your guess
 
 
 return 0;

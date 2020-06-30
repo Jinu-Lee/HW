@@ -21,8 +21,8 @@ void find_common(){
         if(n2[i] < n1[j])
         {   
             cnt++;
-            if(cnt >= 4) {      //변수 1
-                jmp += 10;      //변수 2
+            if(cnt >= 4) {
+                jmp += 10;
             }
             i += jmp;
             if(i > n2_num) {
@@ -75,9 +75,9 @@ void find_common_linear()
 int main()
 {
 
-    FILE *fp  = fopen("testcase/sample/sample1_answer.txt", "r");
-    FILE *fp2 = fopen("testcase/sample/sample1_n2.txt", "r");
-    FILE *fp3 = fopen("testcase/sample/sample1_n1.txt", "r");
+    FILE *fp  = fopen("sample5_answer.txt", "r");
+    FILE *fp2 = fopen("sample5_n2.txt", "r");
+    FILE *fp3 = fopen("sample5_n1.txt", "r");
     for (int i = 0; i < 3; i++)
     {
         fscanf(fp, "%d", &input[i]);

@@ -1,0 +1,443 @@
+phase_1
+rsp = rsp - 0x8 
+rsi = rip + 0x1841 
+0x00005555555553df
+0x            1841
+0x0000555555556c20
+-> Fifty percent of something is better than one hundred percent of nothing.
+
+rax = strings_not_equal()
+if (rax != 0) {
+    explode_bomb() 
+}
+rsp = rsp + 0x8 
+return 
+
+strings_not_equal               //두 string이 다르면 1, 같으면 0
+rbx = rdi      //first arg
+rbp = rsi      //second arg
+r12d = string_length()
+rax = string_length()
+if (rax != r12d) {
+    return 1 
+}
+if (*rbx == 0) {
+    return 0         
+}
+if (*rbx != *rbp) {
+    return 1 
+}
+while (*rbx == *rbp) {
+    rbx = rbx + 1 
+    rbp = rbp + 1 
+    if (*rbx == 0) {
+        return 0 
+    }
+}
+return 1 
+
+
+string_length
+if (*rdi == 0) {    //null일때 0을 return
+    rax = 0
+    return 
+}
+
+do {                //string의 길이 check
+    rdx = rdi + 1 
+    eax = edx - edi 
+} while(*rdx != 0) 
+
+return
+
+-------------------------------------------------------------------------
+
+phase_2
+
+push rbp, rbx
+rsp = rsp - 0x28
+*(rsp + 0x18) = fs:0x28
+rax = rax ^ rax = 0
+rsi = rsp
+read_six_numbers()
+if (*rsp != 1) {
+    explode_bomb() 
+}
+ebx = 1 
+rbp = rsp 
+
+eax = ebx + *(-0x4 + rbp + 4 * rbx) 
+eax = eax * ebx 
+if (eax != *(rbp + 4 * rbx)) {
+    explode_bomb() 
+} 
+do {
+    rbx = rbx + 0x1 
+    if (rbx == 0x6) {
+        rax = *(0x18 + rsp) 
+        rax = rax ^ fs:0x28 
+        rsp = rsp + 0x28 
+        pop rbx, rbp
+        return
+    }
+    eax = ebx + *(-0x4 + rbp + 4 * rbx) 
+    eax = eax * ebx  
+} while(eax == *(rbp + 4 * rbx)) 
+
+
+read_six_numbers
+
+rsp = rsp - 8
+rdx = rsi
+rcx = rsi + 0x4
+rax = rsi + 0x14
+push rax
+rax = rsi + 0x10
+push rax
+r9 = rsi + 0xc
+r8 = rsi + 0x8
+rsi = rip + 0x1280 = 0x555555556ed0
+rax = 0
+scanf something
+rsp = rsp + 10
+if (rax <= 5) {
+    explode_bomb() 
+}
+rsp = rsp + 8
+return
+
+-------------------------------------------------------------------------
+
+phase_3
+
+rax = 0
+rcx = rsp + 0x4
+rdx = rsp
+rsi = 0x1a54 + rip = 0x555555556edc
+scanf something
+if (rax <= 1) {
+    explode_bomb() 
+}
+if (*rsp > 8) {
+    explode_bomb() 
+}
+rax = *rsp
+rdx = 0x17fa + rip = 0x555555556ca0
+rax = *(rdx + rax * 4) + rdx 
+jump *rax
+
+//1st arg = 2
+rax = 0
+goto 100
+//3
+rdx = 0
+goto 107
+//4
+rax = 0
+goto 121
+//5
+rdx = 0
+goto 128
+//6
+rax = 0
+goto 142
+//7
+rdx = 0
+goto 149
+//8
+rax = 0
+goto 163
+
+100
+rdx = 0x1f3 + 2 * rax 
+107
+eax = edx  
+eax = eax >> 0x1f       //logical, sign bit
+eax = eax + edx 
+eax = eax >> 1          //arithmetic
+eax = eax - 0x18f 
+121
+edx = 0x26b + 2 * rax 
+128
+eax = edx 
+eax = eax >> 0x1f 
+eax = eax + edx 
+eax = eax >> 1 
+eax = eax - 0x2e0 
+142
+edx = 0x1bd + 2 * rax 
+149
+eax = edx 
+eax = eax >> 0x1f 
+eax = eax + edx 
+eax = eax >> 1 
+eax = eax - 0x28a 
+163
+eax = 0xd4 + 2 * rax 
+if (*rsp > 6) {
+    explode_bomb() 
+}
+if (rax != *(4 + rsp)) {
+    explode_bomb() 
+}
+
+rax = *(rsp + 0x8) 
+rsp = rsp + 0x18 
+return 
+
+-----------------------------------------------------------------
+
+phase_4
+
+rax = 0
+rcx = rsp + 4
+rdx = rsp
+rsi = rip + 0x18f7 = 0x5555 5555 6edc
+scanf something
+if (rax != 2)
+    explode_bomb()
+if (*rsp > 0x1f)
+    explode_bomb()
+esi = *rsp
+rdi = rip + 0x202d9c = 0x5555 5575 83a0
+func4
+if (rax != 0x47)
+    explode_bomb()
+if (*(rsp + 4) != 0x47)
+    explode_bomb()
+rax = *(rsp + 0x8)
+return
+
+func4
+rbx = *rdi
+if (rbx != esi) {
+    rax = *(rdi + 0x8)
+    if (rax != 0) {
+        if (ebx > esi) {
+            rdi = rax
+            func4()
+            ebx = ebx + eax
+        }
+    }
+    rdi = *(rdi + 0x10)
+    if (ebx < esi) {
+        if (rdi != 0) {
+            func4()
+            ebx = ebx + eax
+        }
+        else {
+            if (rax != 0) {
+                eax = 0
+                ebx = ebx + eax
+            }
+        }
+    }
+    else {
+        if (rdi != 0) {
+            rax = 0
+            ebx = ebx + eax
+        }
+    }
+}
+else {
+    ebx = esi
+}
+eax = ebx
+return
+
+------------------------------------------------------------------
+
+phase_5
+
+rax = 0
+rcx = rsp + 0x8
+rdx = rsp + 0x4
+rsi = rip + 0x18d0 = 0x555555556f29
+
+scanf
+if (rax <= 1) { //입력 2개 이상
+    explode_bomb()
+}
+rdi = *(rsp + 0xe)  //string 시작
+if (string_length() != 0x6) { //길이가 6
+    explode_bomb()
+}
+if (*(rsp) != 0x5) {
+    explode_bomb()
+}
+edi = *(rsp)
+edx = 0
+rsi = rip + 0x168b = 0x555555556d10
+rcx = rsp + 0xe     //string 시작
+
+86
+eax = *(rdx + rcx * 1)
+eax = eax ^ edi
+eax = eax & 0xf
+
+eax = *(rsi + rax * 1)
+*(0x7 + rsp + rdx * 1) = al
+rdx = rdx + 0x1
+if (rdx != 6)
+    goto 86
+
+*(rsp + 0xd) = 0x0
+rdi = rsp + 0x7
+rsi = rip + 0x1620  //"talent"
+strings_not_equal
+if (eax != 0) {
+    explode_bomb
+}
+return
+
+-------------------------------------------------------------
+
+phase_6
+
+rax = 0
+r12 = rsp
+rsi = r12
+read_eight_numbers
+r13d = 0
+goto 82
+
+52
+    ebx = ebx + 0x1
+    if ebx > 0x7
+        goto 78
+
+60
+    rax = ebx
+    eax = *(rsp + rax * 4)
+    if *rbp != eax 
+        goto 52
+    else       
+        explode_bomb
+
+78
+    r12 = r12 + 0x4
+
+82
+    rbp = r12       //rsp
+    eax = *r12      //첫번째 숫자
+    eax = eax - 0x1 
+    if eax > 0x7    //8보다 크면 폭탄 터짐
+        explode_bomb
+    r13d = r13d + 0x1
+    if r13d == 8
+        goto 160
+    ebx = r13d
+    goto 60
+
+for (i = 0; i <= 7; i++)
+    if (num[i] > 0x8)
+        explode_bomb
+    for (j = i + 1; j <= 7; j++)
+        if num[i] == num[j] 
+            explode_bomb
+==> 요약 : 8개 숫자는 전부 다 다름 & 8보다 클수도 음수일 수도 없음 ==> 1~8의 조합
+
+112
+    rdx = *(rdx + 0x8)
+    eax = eax + 0x1
+    if eax != ecx
+        goto 112
+123
+    *(0x20 + rsp + rsi * 8) = rdx
+    rsi = rsi + 0x1
+    if rsi == 0x8
+        goto 167
+138 
+    ecx = *(rsp + rsi * 4)
+    eax = 0x1
+    rdx = rip + 0x202ba2 = 0x555555758330   
+    if ecx > 0x1
+        goto 112
+    goto 123
+
+esi = 0
+goto 138
+
+==> stack에 숫자에 해당하는 node의 메모리 주소를 채움
+
+167
+rbx = *(rsp + 0x20)
+rax = rsp + 0x20    //stack에 있는 주소 처음
+rsi = rsp + 0x58    //stack에 있는 마지막 
+rcx = rbx
+185
+rdx = *(rax + 0x8)
+*(rcx + 0x8) = rdx
+rax = rax + 0x8
+rcx = rdx
+if rsi != rax
+    goto 185
+*(rdx + 0x8) = 0
+
+ebp = 0x7
+goto 229
+
+220
+rbx = *(rbx + 0x8)
+ebp = ebp - 0x1
+if ZF
+    goto 246
+
+229
+    rax = *(rbx + 0x8)  //rbx : node 시작
+    eax = *rax
+    if *rbx <= eax      //
+        goto 220
+    else
+        explode_bomb
+
+246
+    return
+
+==> node가 크기 순서대로 이어져있어야함.
+
+-------------------------------------------------------------------
+
+secret_phase
+
+edx = 0xa
+esi = 0x0
+rdi = rax
+strtol // string to long
+rbx = rax
+eax = rax - 0x1
+if eax > 0x3e8      // eax <= 1000이어야함.
+    explode_bomb
+
+esi = ebx
+rdi = rip + 0x2029d8
+fun7
+if eax != 0x4
+    explode_bomb
+
+return
+
+
+fun7
+
+if rdi == 0
+    return -1
+
+edx = *rdi
+if edx > esi
+    goto 29
+eax = 0
+if edx != esi
+    goto 42
+return
+
+29
+    rdi = *(rdi + 0x8)
+    fun7()
+    eax = 2 * eax
+    return
+42
+    rdi = *(rdi + 0x10)
+    fun7()
+    eax = 2 * rax + 0x1
+    return
