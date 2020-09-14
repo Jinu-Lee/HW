@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 8a98a9f54ac79f484c5c3d7f235d2bede8a42cb5
 # Created by https://www.gitignore.io/api/c,c++,java,python,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=c,c++,java,python,visualstudiocode
 
@@ -210,13 +206,12 @@ dmypy.json
 ### VisualStudioCode ###
 .vscode/launch.json
 .vscode/settings.json
+.vscode/c_cpp_properties.json
+.vscode/tasks.json
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
+*.txt
 
-<<<<<<< HEAD
 # End of https://www.gitignore.io/api/c,c++,java,python,visualstudiocode
-=======
-# End of https://www.gitignore.io/api/c,c++,java,python,visualstudiocode
->>>>>>> 8a98a9f54ac79f484c5c3d7f235d2bede8a42cb5
