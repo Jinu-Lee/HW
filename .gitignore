@@ -219,5 +219,8 @@ dmypy.json
 *.bat
 *.sh
 *.DS_Store
+.settings/
+*.classpath
+Makefile
 
 # End of https://www.gitignore.io/api/c,c++,java,python,visualstudiocode
