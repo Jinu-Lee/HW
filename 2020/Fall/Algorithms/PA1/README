@@ -1,0 +1,27 @@
+Algorithms (SWE2016-41)
+PA1
+
+2019311218 이진우
+
+1. To compile
+    1) 'gcc -o pa1.out pa1.c'
+    2) 'make'
+
+2. To execute
+    1) Default file name
+        './pa1.out'
+
+        input = 'hw1_input.txt'
+        output = 'hw1_output.txt'
+
+    2) Just input file name
+        ex) './pa1.out ***'
+
+        input = ***
+        output = 'hw1_output.txt'
+
+    3) Both input and output file name
+        ex) './pa1.out *** $$$'
+
+        input = ***
+        output = $$$

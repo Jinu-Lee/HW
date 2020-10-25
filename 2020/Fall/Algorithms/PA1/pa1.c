@@ -58,6 +58,62 @@ int compare(Key* k1, Key* k2) {
     return compare_same(w1, w2, len1);
 }
 
+void merge(Key* arr, int left, int mid, int right) {
+    int n_left = mid - left + 1, n_right = right - mid;
+    Key* left_arr = malloc(sizeof(Key) * n_left);
+    Key* right_arr = malloc(sizeof(Key) * n_right);
+    Key* left_ptr, *right_ptr, *arr_ptr, *left_end = left_arr + n_left, *right_end = right_arr + n_right;
+
+    for (left_ptr = left_arr, arr_ptr = arr + left; left_ptr != left_end; left_ptr++, arr_ptr++) {
+        left_ptr->obj = arr_ptr->obj;
+        left_ptr->start = arr_ptr->start;
+        left_ptr->len = arr_ptr->len;
+    }
+
+    for (right_ptr = right_arr, arr_ptr = arr + mid + 1; right_ptr != right_end; right_ptr++, arr_ptr++) {
+        right_ptr->obj = arr_ptr->obj;
+        right_ptr->start = arr_ptr->start;
+        right_ptr->len = arr_ptr->len;
+    }
+
+    for (left_ptr = left_arr, right_ptr = right_arr, arr_ptr = arr + left; (left_ptr != left_end) && (right_ptr != right_end); arr_ptr++) {
+        if (compare(left_ptr, right_ptr) <= 0) {
+            arr_ptr->obj = left_ptr->obj;
+            arr_ptr->start = left_ptr->start;
+            arr_ptr->len = (left_ptr++)->len;
+        }
+        else {
+            arr_ptr->obj = right_ptr->obj;
+            arr_ptr->start = right_ptr->start;
+            arr_ptr->len = (right_ptr++)->len;
+        }
+    }
+
+    for (; left_ptr != left_end; left_ptr++, arr_ptr++) {
+        arr_ptr->obj = left_ptr->obj;
+        arr_ptr->start = left_ptr->start;
+        arr_ptr->len = left_ptr->len;
+    }
+
+    for (; right_ptr != right_end; right_ptr++, arr_ptr++) {
+        arr_ptr->obj = right_ptr->obj;
+        arr_ptr->start = right_ptr->start;
+        arr_ptr->len = right_ptr->len;
+    }
+
+    free(left_arr);
+    free(right_arr);
+}
+
+void merge_sort(Key* arr, int left, int right) {
+    if (left < right) {
+        int mid = (left + right) / 2;
+        merge_sort(arr, left, mid);
+        merge_sort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+}
+
 void insertion_sort(Key* keys, int n) {
     Key temp;
     int j;
@@ -120,11 +176,15 @@ void radix_sort(Key* keys, Key* temp, int low, int high, int d) {
 
 int main(int argc, char* argv[])
 {
-    //FILE* input = fopen("hw1_input.txt", "r");
-    //FILE* output = fopen("hw1_output.txt", "w");
+    char input_default[] = "hw1_input.txt";
+    char output_default[] = "hw1_output.txt";
+    char* input_file = input_default, *output_file = output_default;
 
-    FILE* input = fopen(argv[1], "r");
-    FILE* output = fopen(argv[2], "w");
+    if (argc >= 2) input_file = argv[1];
+    if (argc == 3) output_file = argv[2];
+
+    FILE* input = fopen(input_file, "r");
+    FILE* output = fopen(output_file, "w");
 
     Key* keys, *temp; 
     char buf[165];
@@ -178,7 +238,12 @@ int main(int argc, char* argv[])
 
     temp = (Key*) malloc(sizeof(Key) * n);
     radix_sort(keys, temp, 0, n - 1, 0);
-    insertion_sort(keys, n);
+    if (min > 3) {
+        insertion_sort(keys, n);
+    }
+    else {
+        merge_sort(keys, 0, n - 1);
+    }
 
     for (int i = 0; i < n; i++) {
         fputs(keys[i].obj, output);
