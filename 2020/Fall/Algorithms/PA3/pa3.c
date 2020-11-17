@@ -6,16 +6,18 @@
 #define parent(x)       (((x) - 1) / 2)
 #define leftChild(x)    (2 * (x) + 1)
 #define rightChild(x)   (2 * (x) + 2)
+#define islower(x)      (((x) >= 'a') && ((x) <= 'z'))
+#define isupper(x)      (((x) >= 'A') && ((x) <= 'Z'))
 
 typedef struct {
     char* word;
     int cnt;
 } Node;
 
-Node tree[127];
-int frequency[128];
+Node tree[256];
+int frequency[256];
 int n, tree_size;
-char table[26][6];
+char table[26][10];
 
 void swap(Node* a, Node* b) {
     Node temp;
@@ -149,19 +151,6 @@ void insertTree(char* word, int pos, char ch, int parent) {
     }
 }
 
-void printTree(FILE* output, char* word, int pos, int parent) {
-    if (tree[parent].word != NULL) {
-        word[pos] = '\0';
-        fprintf(output, "%s:%s\n", tree[parent].word, word);
-    }
-    else {
-        word[pos] = '0';
-        printTree(output, word, pos + 1, leftChild(parent));
-        word[pos] = '1';
-        printTree(output, word, pos + 1, rightChild(parent));
-    }
-}
-
 int main(int argc, char* argv[])
 {
     FILE* input, *output;
@@ -214,6 +203,9 @@ int main(int argc, char* argv[])
 
         fseek(input, 0, SEEK_SET);
         while ((c = fgetc(input)) != EOF) {
+            if (!islower(c) && !isupper(c))
+                continue;
+            if (isupper(c)) c = c - 'A' + 'a';
             fprintf(output, "%s", table[c - 'a']);
         }
 
@@ -245,12 +237,12 @@ int main(int argc, char* argv[])
             if (frequency['a' + i]) {
                 find('a' + i, table[i], 0, 0, strlen(tree[0].word) - 1);
                 insertTree(table[i], 0, 'a' + i, 0);
+                fprintf(output, "%c:%s\n", 'a' + i, table[i]);
             }
         }
         free(tree_struct);
         tree[0].word = NULL;
-        printTree(output, temp, 0, 0);
-
+        
         idx = 0;
         while ((c = fgetc(input)) != EOF) {
             idx = (c == '0') ? leftChild(idx) : rightChild(idx);
@@ -258,6 +250,11 @@ int main(int argc, char* argv[])
                 fprintf(output, "%s", tree[idx].word);
                 idx = 0;
             }
+        }
+
+        for (int i = 0; i < 127; i++) {
+            if (tree[i].word != NULL)
+                free(tree[i].word);
         }
     }   
 

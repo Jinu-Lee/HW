@@ -1,0 +1,22 @@
+Algorithms (SWE2016-41)
+PA3
+
+2019311218 이진우
+
+1. To compile
+    1) gcc -o pa3.out pa3.c
+        or
+    2) make
+
+2. To compress
+    ./pa3.out compress
+
+    input = 'hw3_input.txt'
+    output = 'hw3_output1.txt'
+
+
+3. To uncompress
+    ./pa3.out uncompress
+
+    input = 'hw3_output1.txt'
+    output = 'hw3_output2.txt'
