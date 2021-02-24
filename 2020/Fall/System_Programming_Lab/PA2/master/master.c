@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
 
     while (!feof(list)) {
         fscanf(list, "%s %d", slaves[num_slave].host, &slaves[num_slave].port);
-        num_slave++;
+        if (strcmp(slaves[num_slave].host, "") != 0) num_slave++;
     }
     fclose(list);
 
@@ -99,10 +99,7 @@ int main(int argc, char* argv[])
     struct sockaddr_in saddr;
 
     for (int i = 0; i < num_slave; i++) {
-        if ((h = gethostbyname(slaves[i].host)) == NULL) {
-            printf("gethostbyname() failed.\n");
-            continue;
-        }
+        if ((h = gethostbyname(slaves[i].host)) == NULL) continue;
 
         memset((char*)&saddr, 0, sizeof(saddr));
         saddr.sin_family = AF_INET;
